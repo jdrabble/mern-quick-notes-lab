@@ -20,7 +20,7 @@ export default function NotePage({ user }) {
       });
 
       if (!response.ok) {
-        throw new Error("Error: " + response.statusText);
+        throw new Error(response.statusText);
       }
 
       const data = await response.json();
@@ -60,7 +60,7 @@ export default function NotePage({ user }) {
       });
 
       if (!response.ok) {
-        throw new Error("Error: " + response.statusText);
+        throw new Error(response.statusText);
       }
 
       const newNote = await response.json();
@@ -91,12 +91,12 @@ export default function NotePage({ user }) {
       });
 
       if (!response.ok) {
-        throw new Error("Error: " + response.statusText);
+        throw new Error(response.statusText);
       }
 
       setNotes((prevNotes) => prevNotes.filter(note => note._id !== id));
     } catch (error) {
-      setFetchError(error.message);
+      console.log(error);
     }
   };
 
@@ -115,8 +115,8 @@ export default function NotePage({ user }) {
   return (
     <div>
       <h1>Notes Page For {user.name}</h1>
-      <section className="showcase">
-        <form id="image-form" onSubmit={add}>
+
+        <form onSubmit={add}>
           <label htmlFor="prompt"><h2>Add Note:</h2></label>
           <div>
             <input
@@ -131,7 +131,7 @@ export default function NotePage({ user }) {
           <button type="submit" disabled={loading}>SUBMIT</button>
           {error && <p style={{ color: 'red' }}>{error}</p>}
         </form>
-        <section>
+
           <h2>Previous Notes:</h2>
           {fetchError && <p style={{ color: 'red' }}>{fetchError}</p>}
           <button onClick={toggleSortOrder}>
@@ -150,8 +150,6 @@ export default function NotePage({ user }) {
           ) : (
             <p>No notes yet</p>
           )}
-        </section>
-      </section>
     </div>
   );
 }
